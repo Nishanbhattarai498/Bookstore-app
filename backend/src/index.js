@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
+import bookRoutes from './routes/bookRoutes.js';
 import { connect } from 'mongoose';
 import { connectDB } from './lib/db.js';
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/auth",authRoutes);
+app.use("/api/books",bookRoutes); // Placeholder for book routes
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
