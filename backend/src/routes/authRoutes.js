@@ -50,21 +50,47 @@ router.post('/register',  async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profileImage: user.profileImage,
-
-        }
-    }
-
-        );
-        
-
+               }});
     } catch (error) {
         console.log("Error during registration:", error);
         res.status(500).send("Error during registration");
     }
 });
 router.post('/login', async (req, res) => {
-    // Handle login
-    res.send("Login");
+             try {
+        const {email,password}=req.body;
+        if(!email || !password){
+            return res.status(400).json("All fields are required");
+        }
+    
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json("Invalid email or password");
+        }
+        //compare password
+        const isPasswordCorrect=await user.comparePassword(password);
+        if(!isPasswordCorrect){
+            return res.status(400).json("Invalid  password");
+        }
+
+        //generate token 
+        const token=generateToken(user._id);
+        res.status(200).json({
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                profileImage: user.profileImage,
+               }});
+    
+    
+    
+    
+    } catch (error) {
+        console.log("Error during login:", error);
+        res.status(500).send("Error during login");
+    }
 });
 
 export default router;
