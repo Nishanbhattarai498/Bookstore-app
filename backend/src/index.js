@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
+import cors from 'cors';
 import { connect } from 'mongoose';
 import { connectDB } from './lib/db.js';
 
@@ -12,6 +13,7 @@ const app = express();
 const PORT  = process.env.PORT;
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Server is ready');
