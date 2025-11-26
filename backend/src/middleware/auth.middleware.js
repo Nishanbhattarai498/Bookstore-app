@@ -1,0 +1,31 @@
+ import jwt from 'jsonwebtoken';
+ import User from '../models/user.model.js';
+
+
+ const protectRoute = async (req, res, next) => {
+
+    try{
+        //get token
+
+        const token = req.header('Authorization').replace('Bearer ', '');
+        if (!token) {
+            return res.status(401).json("No token, authorization denied");
+        }
+        //verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        //get user from token
+        const user = await User.findById(decoded.userId).select('-password');
+        if (!user) {
+            return res.status(401).json("User not found, authorization denied");
+        }
+        req.user = user;
+        next();
+
+    }
+    catch (error) {
+        console.log("Auth middleware error:", error);
+        res.status(401).json("Token is not valid");
+
+    }
+ }
+export default protectRoute;
