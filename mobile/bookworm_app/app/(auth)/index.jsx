@@ -4,6 +4,9 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import COLORS from '@/constants/colors';
 import { Link } from 'expo-router';
+import { Alert } from 'react-native';
+import { useAuthStore } from '../../store/authStore.js';
+
 
 
 
@@ -11,11 +14,18 @@ export default function Login() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
+    
+    const { login, isLoading } = useAuthStore();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         // Handle login logic here
+         const result = await login(email, password);
+
+    if (!result.success) Alert.alert("Error", result.error);
     }
+   
+
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -99,7 +109,7 @@ export default function Login() {
              {/* FOOTER */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don&apos;t have an account?</Text>
-              <Link href="/(auth)/signup" asChild>
+              <Link href="/signUp" asChild>
                 <TouchableOpacity>
                   <Text style={styles.link}>Sign Up</Text>
                 </TouchableOpacity>
