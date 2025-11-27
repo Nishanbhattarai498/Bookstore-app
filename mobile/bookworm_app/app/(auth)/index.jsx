@@ -1,9 +1,10 @@
-import { View, Text,Image } from 'react-native'
+import { View, Text,Image,ActivityIndicator, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity } from 'react-native'
 import styles from '@/assets/styles/login.styles'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput } from 'react-native-gesture-handler';
 import COLORS from '@/constants/colors';
+import { Link } from 'expo-router';
+
 
 
 export default function Login() {
@@ -16,6 +17,10 @@ export default function Login() {
         // Handle login logic here
     }
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
     <View style={styles.container}> 
      {/* ILLUSTRATION */}
         <View style={styles.topIllustration}>
@@ -70,12 +75,41 @@ export default function Login() {
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
                 />
+                 <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={showPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color={COLORS.primary}
+                  />
+                </TouchableOpacity>
 
         </View>
         </View>
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
+              {isLoading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.buttonText}>Login</Text>
+              )}
+            </TouchableOpacity>
+             {/* FOOTER */}
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>Don&apos;t have an account?</Text>
+              <Link href="/(auth)/signup" asChild>
+                <TouchableOpacity>
+                  <Text style={styles.link}>Sign Up</Text>
+                </TouchableOpacity>
+              </Link>
+            </View>
+
        
       </View>
       </View>
     </View>
+    </KeyboardAvoidingView>
   )
 }
