@@ -13,22 +13,22 @@ router.post('/register',  async (req, res) => {
     try {
         const {email,username,password}=req.body;
         if(!email || !username || !password){
-            return res.status(400).send("All fields are required"); 
+            return res.status(400).json({ message: "All fields are required" }); 
         }
         if (password.length < 6){
-            return res.status(400).send("Password must be at least 6 characters long");
+            return res.status(400).json({ message: "Password must be at least 6 characters long" });
         }
         if (username.length < 3){
-            return res.status(400).send("Username must be at least 3 characters long");
+            return res.status(400).json({ message: "Username must be at least 3 characters long" });
         }
        
         const existingEmail = await User.findOne({ email });
         if (existingEmail) {
-            return res.status(400).json("User with given email already exists");
+            return res.status(400).json({ message: "User with given email already exists" });
         }
         const existingUsername = await User.findOne({ username });
         if (existingUsername) {
-            return res.status(400).json("User with given username already exists");
+            return res.status(400).json({ message: "User with given username already exists" });
         }
 
         const profileImage =`https://ui-avatars.com/api/?name=${username}&background=random&length=1`;
@@ -53,24 +53,24 @@ router.post('/register',  async (req, res) => {
                }});
     } catch (error) {
         console.log("Error during registration:", error);
-        res.status(500).send("Error during registration");
+        res.status(500).json({ message: "Error during registration" });
     }
 });
 router.post('/login', async (req, res) => {
              try {
         const {email,password}=req.body;
         if(!email || !password){
-            return res.status(400).json("All fields are required");
+            return res.status(400).json({ message: "All fields are required" });
         }
     
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json("Invalid email or password");
+            return res.status(400).json({ message: "Invalid email or password" });
         }
         //compare password
         const isPasswordCorrect=await user.comparePassword(password);
         if(!isPasswordCorrect){
-            return res.status(400).json("Invalid  password");
+            return res.status(400).json({ message: "Invalid  password" });
         }
 
         //generate token 
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
     
     } catch (error) {
         console.log("Error during login:", error);
-        res.status(500).send("Error during login");
+        res.status(500).json({ message: "Error during login" });
     }
 });
 

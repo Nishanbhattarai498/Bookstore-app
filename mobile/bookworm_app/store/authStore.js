@@ -23,7 +23,12 @@ export const useAuthStore = create((set) => ({
         }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        data = { message: "An error occurred" };
+      }
 
       if (!response.ok) throw new Error(data.message || "Something went wrong");
 
@@ -54,7 +59,12 @@ export const useAuthStore = create((set) => ({
         }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        data = { message: "An error occurred" };
+      }
 
       if (!response.ok) throw new Error(data.message || "Something went wrong");
 
