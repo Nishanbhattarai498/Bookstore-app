@@ -5,7 +5,7 @@ import bookRoutes from './routes/bookRoutes.js';
 import cors from 'cors';
 import { connect } from 'mongoose';
 import { connectDB } from './lib/db.js';
-import jobs from './lib/jobs.js';
+import jobs from './lib/cron.js';
 
 dotenv.config();
 
