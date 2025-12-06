@@ -13,27 +13,29 @@ export default function RootLayout() {
   const segments =useSegments();
 
   const {checkAuth,user,token} = useAuthStore();
+  const [isMounted, setIsMounted] = React.useState(false);
+
   useEffect(() => {
-    return () => {
-      checkAuth();
-    };
+    checkAuth();
+    setIsMounted(true);
   }, [])
 
   // handle the navigation based on auth state
   useEffect(() => {
+    if (!isMounted) return;
 
     const inAuthScreen= segments[0]==="(auth)";
     const isSignedIn = user && token;
 
     // if user is not logged in and not in auth screens, redirect to auth
     if(!isSignedIn && !inAuthScreen){
-      router.replace("/(auth)/login");
+      router.replace("/(auth)");
     }
     // if user is logged in and in auth screens, redirect to main app
     else if(isSignedIn && inAuthScreen){
-      router.replace("/(tabs)/index");
+      router.replace("/(tabs)");
     }
-  }, [user,segments,token])
+  }, [user,segments,token, isMounted])
 
 
 
