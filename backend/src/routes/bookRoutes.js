@@ -32,7 +32,7 @@ router.post('/',protectRoute,async (req, res) => {
     }
     catch (error) {
         console.log("Error creating book:", error);
-        res.status(500).send("Error creating book");
+        res.status(500).json({ message: "Error creating book" });
 
     }
 });
@@ -61,7 +61,7 @@ router.get('/',protectRoute,async (req, res) => {
     }
     catch (error) {
         console.log("Error fetching books:", error);
-        res.status(500).send("Error fetching books");
+        res.status(500).json({ message: "Error fetching books" });
     }
 });
 

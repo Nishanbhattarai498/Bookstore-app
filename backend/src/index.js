@@ -15,7 +15,7 @@ const PORT  = process.env.PORT;
 
 jobs.start();
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
 app.get('/', (req, res) => {
