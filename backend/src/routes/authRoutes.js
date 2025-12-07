@@ -31,7 +31,7 @@ router.post('/register',  async (req, res) => {
             return res.status(400).json({ message: "User with given username already exists" });
         }
 
-        const profileImage =`https://ui-avatars.com/api/?name=${username}&background=random&length=1`;
+        const profileImage =`https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`;
 
         const user = new User({
             email,
@@ -50,6 +50,7 @@ router.post('/register',  async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profileImage: user.profileImage,
+                createdAt: user.createdAt,
                }});
     } catch (error) {
         console.log("Error during registration:", error);
@@ -82,6 +83,7 @@ router.post('/login', async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profileImage: user.profileImage,
+                createdAt: user.createdAt,
                }});
     
     
