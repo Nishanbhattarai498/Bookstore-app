@@ -39,7 +39,10 @@ export default function Profile() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to fetch user books");
+      if (!response.ok) {
+        const errorMessage = typeof data === "string" ? data : data.message || "Failed to fetch user books";
+        throw new Error(errorMessage);
+      }
 
       setBooks(data);
     } catch (error) {

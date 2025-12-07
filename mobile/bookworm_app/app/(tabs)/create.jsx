@@ -108,7 +108,10 @@ export default function Create() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Something went wrong");
+      if (!response.ok) {
+        const errorMessage = typeof data === "string" ? data : data.message || "Something went wrong";
+        throw new Error(errorMessage);
+      }
 
       Alert.alert("Success", "Your book recommendation has been posted!");
       setTitle("");

@@ -38,7 +38,10 @@ export default function Home() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to fetch books");
+      if (!response.ok) {
+        const errorMessage = typeof data === "string" ? data : data.message || "Failed to fetch books";
+        throw new Error(errorMessage);
+      }
 
       // todo fix it later
       // setBooks((prevBooks) => [...prevBooks, ...data.books]);

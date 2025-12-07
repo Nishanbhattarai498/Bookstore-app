@@ -9,8 +9,22 @@ export default function ProfileHeader() {
 
   if (!user) return null;
 
-  const profileImage = user.profileImage || `https://ui-avatars.com/api/?name=${user.username}&background=random&length=1`;
-  const joinedDate = user.createdAt ? formatMemberSince(user.createdAt) : "Unknown";
+  // Fallback for profile image
+  const profileImage = user.profileImage && user.profileImage.trim() !== "" 
+    ? user.profileImage 
+    : `https://ui-avatars.com/api/?name=${user.username}&background=random&length=1`;
+
+  // Extract date from MongoDB _id if createdAt is missing
+  const getCreationDate = () => {
+    if (user.createdAt) return formatMemberSince(user.createdAt);
+    if (user.id) {
+      const timestamp = parseInt(user.id.substring(0, 8), 16) * 1000;
+      return formatMemberSince(new Date(timestamp));
+    }
+    return "Unknown";
+  };
+
+  const joinedDate = getCreationDate();
 
   return (
     <View style={styles.profileHeader}>
