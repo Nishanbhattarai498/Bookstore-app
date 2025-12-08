@@ -7,15 +7,7 @@
 </p>
 
 
-## 🎯 What You'll Build
 
-This is a true **full‑stack** project—not just a pretty UI.
-
-✅ Works on **real devices & simulators** (Android / iOS)  
-✅ Zero native code, zero paid services  
-
-
----
 
 ## 🧑‍🍳 App Features Overview
 
